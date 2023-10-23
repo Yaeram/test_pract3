@@ -16,6 +16,7 @@ bool utils::process_in_directory(const std::filesystem::path & path, crypto_util
     for (auto &de : std::filesystem::recursive_directory_iterator(path)) {
         if (!de.is_regular_file()) {continue;}
         if (!engine.push_to_queue(de.path().string())){
+            std::cout << "failed to push to queue " << de.path().string() << std::endl;
             return false;
         }
     }

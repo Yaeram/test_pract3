@@ -22,9 +22,10 @@ bool crypto_utils::CryptoEngine::push_to_queue(const std::string & filename){
     return false;
 }
 bool crypto_utils::CryptoEngine::process_queue(){
+    uint32_t count = 0;
     for( ;!m_files_queue.empty(); ) {
         switch (m_type) {
-            case TypeCryptographic::XOR:
+            case XOR:
                 if (!process_xor(m_files_queue.front())) {
                     return false;
                 }
@@ -36,7 +37,9 @@ bool crypto_utils::CryptoEngine::process_queue(){
                 return false;
 
         }
+        count++;
     }
+    std::cout << "Processed " << count << " files" << std::endl;
     return true;
 }
 
@@ -52,6 +55,7 @@ bool crypto_utils::CryptoEngine::process_xor(const std::string &filename, unsign
     file_input.close();
     file_output.close();
     if (!std::filesystem::remove(filename)) {
+        std::cout << " crypto_utils::CryptoEngine::process_xor \n failed to remove " << filename << std::endl;
         return false;
     }
     std::filesystem::rename(new_filename, filename);

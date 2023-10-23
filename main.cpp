@@ -2,7 +2,10 @@
 #include "utils.h"
 
 int main(int argc, char** argv){
-    if (argc < 3) { return -1; }
+    if (argc < 3) {
+        std::cerr << "Usage: e[d] <path>\n";
+        return -1;
+    }
     crypto_utils::CryptoEngine engine;
     std::string flag (argv[1]);
     if (flag == "e") {
