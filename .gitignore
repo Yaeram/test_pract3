@@ -2,3 +2,4 @@ Google_tests/lib
 cmake-build-debug
 .idea
 build*
+env*

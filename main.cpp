@@ -12,11 +12,12 @@ int main(int argc, char** argv){
         engine.choose_type(crypto_utils::TypeCryptographic::XOR);
         engine.choose_action(crypto_utils::TypeAction::Encrypt);
         utils::process_in_directory(argv[2], engine);
-    }
-    if (flag == "d") {
+    } else if (flag == "d") {
         engine.choose_type(crypto_utils::TypeCryptographic::XOR);
         engine.choose_action(crypto_utils::TypeAction::Decrypt);
         utils::process_in_directory(argv[2], engine);
+    } else {
+        std::cerr << "flag is not valid [" << flag << "]"<< std::endl;
     }
 
     return 0;

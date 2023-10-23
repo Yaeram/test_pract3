@@ -49,7 +49,13 @@ bool crypto_utils::CryptoEngine::process_xor(const std::string &filename, unsign
     std::ofstream file_output(new_filename, std::ios::binary);
     char buffer[1024];
     while (file_input.read(buffer, sizeof(buffer))) {
+        for (char & i : buffer) {
+            i ^= base;
+        }
         file_output.write(buffer, sizeof(buffer));
+    }
+    for (int i = 0; i < file_input.gcount(); i++) {
+        buffer[i] ^= base;
     }
     file_output.write(buffer, file_input.gcount());
     file_input.close();
