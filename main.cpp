@@ -1,11 +1,12 @@
 #include <iostream>
-#include "crypto_utils.h"
+#include "utils.h"
 
 int main() {
     crypto_utils::CryptoEngine engine;
     engine.choose_type(crypto_utils::TypeCryptographic::XOR);
+    engine.choose_action(crypto_utils::TypeAction::Encrypt);
+    utils::process_in_directory("B:/CProjects/Env", engine);
     engine.choose_action(crypto_utils::TypeAction::Decrypt);
-    engine.push_to_queue("B:/CProjects/Env/test.txt_cr");
-    engine.process_queue();
+    utils::process_in_directory("B:/CProjects/Env", engine);
     return 0;
 }

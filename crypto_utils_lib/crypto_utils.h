@@ -2,7 +2,6 @@
 #include <string>
 #include <iostream>
 #include <queue>
-#include "utils.h"
 
 namespace crypto_utils {
     enum TypeCryptographic {

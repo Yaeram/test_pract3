@@ -1,7 +1,6 @@
 #include "crypto_utils.h"
 #include <fstream>
-#include <sys/stat.h>
-
+#include <filesystem>
 
 
 crypto_utils::CryptoEngine::CryptoEngine() {
@@ -15,14 +14,8 @@ void crypto_utils::CryptoEngine::choose_type(const TypeCryptographic & type) {
     m_type = type;
 }
 
-int exist(const char *name)
-{
-    struct stat buffer;
-    return (stat (name, &buffer) == 0);
-}
-
 bool crypto_utils::CryptoEngine::push_to_queue(const std::string & filename){
-    if (exist(filename.c_str())) {
+    if (std::filesystem::exists(filename)) {
         m_files_queue.push(filename);
         return true;
     }
@@ -35,7 +28,13 @@ bool crypto_utils::CryptoEngine::process_queue(){
                 if (!process_xor(m_files_queue.front())) {
                     return false;
                 }
+                m_files_queue.pop();
                 break;
+            case shuffle:
+                break;
+            default:
+                return false;
+
         }
     }
     return true;
@@ -43,21 +42,20 @@ bool crypto_utils::CryptoEngine::process_queue(){
 
 bool crypto_utils::CryptoEngine::process_xor(const std::string &filename, unsigned char base) {
     std::ifstream file_input(filename);
-    std::string new_filename;
-    switch (m_action) {
-        case Encrypt:
-            new_filename = filename + "_cr";
-            break;
-        case Decrypt:
-            new_filename = filename + "_decr";
-            break;
-    }
+    std::string new_filename(filename + "_tmp");
     std::ofstream file_output(new_filename);
     char ch = 0x00;
     while(file_input.get(ch)){
         ch ^= base;
         file_output << ch;
     }
+    file_input.close();
+    file_output.close();
+    if (!std::filesystem::remove(filename)) {
+        return false;
+    }
+    std::filesystem::rename(new_filename, filename);
+    return true;
 }
 
 void crypto_utils::CryptoEngine::choose_action(const crypto_utils::TypeAction &type) {

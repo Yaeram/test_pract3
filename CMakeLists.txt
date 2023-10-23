@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.21)
 project(Crypt)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 add_executable(Crypt main.cpp)
 include_directories(crypto_utils_lib)
