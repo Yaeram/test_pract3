@@ -8,12 +8,11 @@
 class CryptoUtilsFixture : public ::testing::Test {
 
 protected:
-    virtual void SetUp()
-    {
+    void SetUp() override {
         engine = new crypto_utils::CryptoEngine();
     }
 
-    virtual void TearDown() {
+    void TearDown() override {
         delete engine;
     }
 

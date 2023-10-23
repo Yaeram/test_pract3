@@ -44,14 +44,14 @@ bool crypto_utils::CryptoEngine::process_queue(){
 }
 
 bool crypto_utils::CryptoEngine::process_xor(const std::string &filename, unsigned char base) {
-    std::ifstream file_input(filename);
+    std::ifstream file_input(filename, std::ios::binary);
     std::string new_filename(filename + "_tmp");
-    std::ofstream file_output(new_filename);
-    char ch = 0x00;
-    while(file_input.get(ch)){
-        ch ^= base;
-        file_output << ch;
+    std::ofstream file_output(new_filename, std::ios::binary);
+    char buffer[1024];
+    while (file_input.read(buffer, sizeof(buffer))) {
+        file_output.write(buffer, sizeof(buffer));
     }
+    file_output.write(buffer, file_input.gcount());
     file_input.close();
     file_output.close();
     if (!std::filesystem::remove(filename)) {
