@@ -2,7 +2,6 @@
 
 uint32_t utils::checksum(std::ifstream& file) {
     uint32_t sum = 0;
-
     uint32_t word = 0;
     while (file.read(reinterpret_cast<char*>(&word), sizeof(word))) {
     sum += word;

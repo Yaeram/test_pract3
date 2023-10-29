@@ -20,6 +20,7 @@ protected:
 };
 
 TEST_F(CryptoUtilsFixture, process_xor){
+    std::filesystem::remove_all("tmp/*");
     std::filesystem::create_directories("tmp");
     std::ofstream test_file("tmp/test");
     test_file << "123\n";
