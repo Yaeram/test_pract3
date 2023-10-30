@@ -6,6 +6,7 @@
 namespace crypto_utils {
     enum TypeCryptographic {
       XOR,
+      shift,
       shuffle
     };
     enum TypeAction {
@@ -24,6 +25,7 @@ namespace crypto_utils {
         TypeCryptographic m_type;
         TypeAction m_action;
         bool process_xor(const std::string & filename, unsigned char base = 0x56);
+        bool process_shift(const std::string & filename, unsigned char base = 0x56);
         std::queue<std::string> m_files_queue;
     };
 }
